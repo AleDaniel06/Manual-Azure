@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manual Azure for Students — UPLA × BTS</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+/* ═══════════════════════════════════════════
+   BORAHAE GLASSMORPHISM — AZURE × BTS MANUAL
+   ═══════════════════════════════════════════ */
+:root{
+  --bora:#7C3AED; --bora2:#A78BFA; --bora3:#EDE9FE; --bora4:#F5F3FF;
+  --azure:#0078D4; --azure2:#50E6FF; --azure3:#E8F4FD;
+  --rose:#EC4899; --rose2:#F9A8D4;
+  --gold:#F59E0B; --mint:#10B981;
+  --ink:#0D0A1E; --muted:#6B7280;
+  --snow:#FFFFFF; --bg:#F3F0FF;
+  --glass:rgba(255,255,255,0.65);
+  --glass2:rgba(255,255,255,0.35);
+  --glass-border:rgba(124,58,237,0.2);
+  --glow:0 0 40px rgba(124,58,237,0.15);
+  --shadow:0 8px 32px rgba(124,58,237,0.12);
+  --shadow2:0 20px 60px rgba(124,58,237,0.2);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+  overflow-x:hidden;
+  cursor:none;
+  min-height:100vh;
+}
+
+/* ── ANIMATED BG ── */
+body::before{
+  content:'';position:fixed;inset:0;z-index:-2;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 20%, rgba(124,58,237,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 80%, rgba(0,120,212,0.15) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(236,72,153,0.08) 0%, transparent 70%),
+    linear-gradient(135deg, #F3F0FF 0%, #E8F4FD 50%, #FCE7F3 100%);
+}
+
+/* Floating orbs */
+.orb{
+  position:fixed;border-radius:50%;filter:blur(60px);
+  pointer-events:none;z-index:-1;animation:float 8s ease-in-out infinite;
+}
+@keyframes float{
+  0%,100%{transform:translateY(0) scale(1)}
+  50%{transform:translateY(-30px) scale(1.05)}
+}
+
+/* ── CUSTOM CURSOR ── */
+#cursor-ring{
+  width:36px;height:36px;border:2px solid var(--bora);border-radius:50%;
+  position:fixed;top:0;left:0;pointer-events:none;z-index:9999;
+  transition:width .3s,height .3s,border-color .3s,background .3s;
+  mix-blend-mode:multiply;
+}
+#cursor-dot{
+  width:7px;height:7px;background:var(--bora);border-radius:50%;
+  position:fixed;top:0;left:0;pointer-events:none;z-index:9999;
+}
+
+/* ── SPLASH ── */
+#splash{
+  position:fixed;inset:0;z-index:1000;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#0D0A1E 0%,#1e1040 50%,#0a1628 100%);
+  transition:opacity 1s ease,transform 1s ease;
+  padding:20px;
+}
+#splash.out{opacity:0;transform:scale(1.05);pointer-events:none}
+
+.splash-stars{position:absolute;inset:0;overflow:hidden}
+.star-p{
+  position:absolute;background:#fff;border-radius:50%;
+  animation:twinkle 3s infinite;
+}
+@keyframes twinkle{0%,100%{opacity:.2}50%{opacity:.9}}
+
+.splash-logo{
+  font-family:'Space Mono',monospace;font-size:.65rem;
+  letter-spacing:.4em;text-transform:uppercase;
+  color:rgba(167,139,250,.7);margin-bottom:32px;
+  opacity:0;animation:riseIn .8s .2s forwards;
+}
+.splash-gif{
+  width:200px;height:200px;border-radius:50%;overflow:hidden;
+  border:3px solid rgba(124,58,237,.5);
+  box-shadow:0 0 0 12px rgba(124,58,237,.08),0 0 0 24px rgba(124,58,237,.04),
+             0 32px 80px rgba(124,58,237,.4);
+  margin-bottom:32px;
+  opacity:0;animation:popIn .9s .4s cubic-bezier(.34,1.56,.64,1) forwards;
+}
+.splash-gif img{width:100%;height:100%;object-fit:cover}
+.splash-title{
+  font-family:'Syne',sans-serif;font-weight:800;text-align:center;
+  font-size:clamp(2rem,5vw,3.8rem);line-height:1.05;
+  color:#fff;margin-bottom:12px;
+  opacity:0;animation:riseIn .8s .6s forwards;
+}
+.splash-title span{
+  background:linear-gradient(90deg,var(--bora2),var(--azure2),var(--rose2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.splash-sub{
+  font-size:.95rem;color:rgba(255,255,255,.55);text-align:center;
+  margin-bottom:40px;line-height:1.7;max-width:480px;
+  opacity:0;animation:riseIn .8s .75s forwards;
+}
+.splash-btn{
+  background:linear-gradient(135deg,var(--bora),var(--rose));
+  color:#fff;border:none;padding:16px 44px;border-radius:100px;
+  font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;
+  letter-spacing:.05em;cursor:none;
+  box-shadow:0 12px 40px rgba(124,58,237,.5),0 4px 12px rgba(236,72,153,.3);
+  transition:transform .3s,box-shadow .3s;
+  opacity:0;animation:riseIn .8s .9s forwards;
+  position:relative;overflow:hidden;
+}
+.splash-btn::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.2),transparent);
+}
+.splash-btn:hover{transform:translateY(-4px);box-shadow:0 20px 60px rgba(124,58,237,.6)}
+
+@keyframes riseIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes popIn{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:scale(1)}}
+
+/* ── MAIN ── */
+#main{opacity:0;transition:opacity .8s ease}
+#main.on{opacity:1}
+
+/* ── NAV ── */
+#topnav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  height:64px;
+  background:rgba(255,255,255,.75);
+  backdrop-filter:blur(24px) saturate(180%);
+  -webkit-backdrop-filter:blur(24px);
+  border-bottom:1px solid rgba(124,58,237,.12);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 32px;
+  box-shadow:0 1px 24px rgba(124,58,237,.08);
+}
+.nav-logo{
+  font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;
+  color:var(--ink);display:flex;align-items:center;gap:10px;
+}
+.nav-logo .pill{
+  background:linear-gradient(90deg,var(--bora),var(--rose));
+  color:#fff;padding:3px 10px;border-radius:100px;font-size:.68rem;
+  font-weight:700;letter-spacing:.05em;
+}
+.nav-steps{display:flex;align-items:center;gap:4px}
+.nav-step{
+  display:flex;align-items:center;gap:6px;
+  padding:6px 14px;border-radius:100px;
+  font-size:.72rem;font-weight:600;color:var(--muted);
+  background:transparent;border:none;cursor:none;
+  transition:all .25s;text-decoration:none;white-space:nowrap;
+}
+.nav-step:hover,.nav-step.active{
+  background:linear-gradient(135deg,var(--bora3),rgba(124,58,237,.08));
+  color:var(--bora);
+}
+.nav-step .step-dot{
+  width:20px;height:20px;border-radius:50%;
+  background:linear-gradient(135deg,var(--bora),var(--bora2));
+  color:#fff;font-size:.62rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.nav-step:not(.active) .step-dot{background:rgba(0,0,0,.1);color:var(--muted)}
+
+/* ── HERO ── */
+#hero{
+  min-height:100vh;display:flex;align-items:center;
+  padding:100px 48px 60px;position:relative;overflow:hidden;
+}
+.hero-inner{
+  max-width:1200px;margin:0 auto;width:100%;
+  display:grid;grid-template-columns:1fr 420px;gap:60px;align-items:center;
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'Space Mono',monospace;font-size:.62rem;
+  letter-spacing:.3em;text-transform:uppercase;color:var(--bora);
+  margin-bottom:20px;
+}
+.hero-eyebrow::before{content:'';width:24px;height:1px;background:var(--bora)}
+h1.hero-h{
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:clamp(2.4rem,4.5vw,3.8rem);line-height:1.05;
+  color:var(--ink);margin-bottom:18px;
+}
+h1.hero-h .accent{
+  background:linear-gradient(135deg,var(--bora),var(--rose));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.hero-desc{
+  font-size:1rem;color:var(--muted);line-height:1.8;
+  margin-bottom:32px;max-width:520px;font-weight:300;
+}
+.hero-chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{
+  background:var(--glass);backdrop-filter:blur(12px);
+  border:1.5px solid var(--glass-border);
+  color:var(--bora);padding:7px 16px;border-radius:100px;
+  font-size:.76rem;font-weight:600;
+  box-shadow:0 2px 12px rgba(124,58,237,.08);
+}
+
+/* Hero GIF card */
+.hero-card{
+  position:relative;
+}
+.hero-gif-frame{
+  border-radius:24px;overflow:hidden;
+  background:linear-gradient(135deg,var(--bora),#4c1d95,#1e3a8a);
+  padding:3px;
+  box-shadow:0 24px 80px rgba(124,58,237,.3),0 8px 32px rgba(0,120,212,.2);
+  animation:float2 6s ease-in-out infinite;
+}
+@keyframes float2{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.hero-gif-inner{border-radius:22px;overflow:hidden;aspect-ratio:1}
+.hero-gif-inner img{width:100%;height:100%;object-fit:cover;display:block}
+
+.hero-badge{
+  position:absolute;bottom:-18px;left:-20px;
+  background:var(--snow);border-radius:16px;padding:12px 18px;
+  box-shadow:0 8px 32px rgba(0,0,0,.12);
+  border:1px solid rgba(124,58,237,.12);
+  display:flex;align-items:center;gap:12px;
+  animation:float2 6s ease-in-out .5s infinite;
+}
+.hero-badge-icon{
+  width:38px;height:38px;border-radius:10px;
+  background:linear-gradient(135deg,#0078D4,#50E6FF);
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:.95rem;
+}
+.hero-badge-text{font-size:.78rem;font-weight:600;color:var(--ink);line-height:1.4}
+.hero-badge-text small{color:var(--muted);font-weight:400;display:block;font-size:.68rem}
+
+.hero-tag{
+  position:absolute;top:-16px;right:-16px;
+  background:linear-gradient(135deg,var(--bora),var(--rose));
+  color:#fff;border-radius:12px;padding:10px 14px;
+  font-size:.7rem;font-weight:700;text-align:center;
+  box-shadow:0 8px 24px rgba(124,58,237,.4);
+  animation:float2 6s ease-in-out 1s infinite;
+}
+.hero-tag .big{font-size:1.4rem;font-weight:800;display:block;line-height:1}
+
+/* ── DIVIDER ── */
+.divider{
+  height:1px;max-width:1000px;margin:0 auto;
+  background:linear-gradient(90deg,transparent,rgba(124,58,237,.2),rgba(236,72,153,.15),transparent);
+}
+
+/* ── SECTION ── */
+.section{padding:80px 48px;max-width:1200px;margin:0 auto}
+
+.sec-eyebrow{
+  font-family:'Space Mono',monospace;font-size:.6rem;
+  letter-spacing:.35em;text-transform:uppercase;color:var(--bora);
+  margin-bottom:12px;display:flex;align-items:center;gap:10px;
+}
+.sec-eyebrow::before{content:'';width:18px;height:1px;background:var(--bora)}
+h2.sec-h{
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:clamp(1.8rem,3.5vw,2.8rem);color:var(--ink);
+  margin-bottom:16px;line-height:1.1;
+}
+h2.sec-h em{
+  background:linear-gradient(90deg,var(--bora),var(--rose));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;font-style:normal;
+}
+.sec-desc{font-size:.92rem;color:var(--muted);line-height:1.8;max-width:600px;margin-bottom:40px}
+
+/* ── PRESENTER MEMBER CARD ── */
+.member-card{
+  display:flex;align-items:center;gap:20px;
+  background:var(--glass);backdrop-filter:blur(20px) saturate(180%);
+  -webkit-backdrop-filter:blur(20px);
+  border:1.5px solid var(--glass-border);
+  border-radius:20px;padding:20px 24px;
+  box-shadow:var(--shadow);margin-bottom:40px;
+  position:relative;overflow:hidden;
+}
+.member-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--bora),var(--rose),var(--azure2));
+}
+.member-gif{
+  width:80px;height:80px;border-radius:50%;overflow:hidden;flex-shrink:0;
+  border:2.5px solid var(--glass-border);
+  box-shadow:0 0 0 4px rgba(124,58,237,.08),0 8px 20px rgba(124,58,237,.2);
+}
+.member-gif img{width:100%;height:100%;object-fit:cover}
+.member-info .name{
+  font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;color:var(--ink);
+}
+.member-info .role{
+  font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  background:linear-gradient(90deg,var(--bora),var(--rose));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;margin:.25em 0 .5em;display:block;
+}
+.member-info .quote{
+  font-size:.83rem;color:var(--muted);font-style:italic;line-height:1.65;
+  border-left:2.5px solid var(--bora2);padding-left:12px;
+}
+
+/* ── STEP CARDS ── */
+.steps-wrap{display:flex;flex-direction:column;gap:24px;margin-top:8px}
+
+.step-card{
+  background:var(--glass);backdrop-filter:blur(20px) saturate(180%);
+  -webkit-backdrop-filter:blur(20px);
+  border:1.5px solid var(--glass-border);
+  border-radius:20px;padding:28px;
+  box-shadow:var(--shadow);
+  position:relative;overflow:hidden;
+  transition:transform .3s,box-shadow .3s,border-color .3s;
+}
+.step-card:hover{
+  transform:translateY(-4px);
+  box-shadow:var(--shadow2);
+  border-color:rgba(124,58,237,.35);
+}
+.step-card::before{
+  content:'';position:absolute;
+  top:0;left:0;width:4px;height:100%;
+  background:linear-gradient(to bottom,var(--bora),var(--rose));
+  border-radius:4px 0 0 4px;
+}
+
+.step-head{display:flex;align-items:flex-start;gap:16px;margin-bottom:16px}
+.step-num-badge{
+  width:48px;height:48px;border-radius:14px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--bora),var(--bora2));
+  color:#fff;font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 6px 20px rgba(124,58,237,.35);
+}
+.step-num-badge.azure{background:linear-gradient(135deg,#0078D4,#50E6FF)}
+.step-num-badge.rose{background:linear-gradient(135deg,var(--rose),#f97316)}
+.step-num-badge.green{background:linear-gradient(135deg,var(--mint),#6ee7b7)}
+
+.step-title{
+  font-family:'Syne',sans-serif;font-weight:700;font-size:1.05rem;color:var(--ink);
+  margin-bottom:4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+}
+.tag-badge{
+  font-size:.62rem;padding:2px 9px;border-radius:100px;font-weight:700;letter-spacing:.05em;
+}
+.tag-critical{background:rgba(236,72,153,.12);color:var(--rose)}
+.tag-tip{background:rgba(124,58,237,.1);color:var(--bora)}
+.tag-done{background:rgba(16,185,129,.12);color:var(--mint)}
+.tag-azure{background:rgba(0,120,212,.1);color:#0078D4}
+
+.step-sub{font-size:.82rem;color:var(--muted)}
+.step-body{font-size:.88rem;color:#3D3060;line-height:1.8}
+.step-body ul{padding-left:18px;margin-top:8px}
+.step-body li{margin-bottom:4px}
+.step-body strong{color:var(--ink)}
+
+/* Callout */
+.callout{
+  border-radius:14px;padding:14px 18px;margin:14px 0;
+  display:flex;align-items:flex-start;gap:12px;font-size:.84rem;line-height:1.7;
+  border-left:3px solid;
+}
+.callout i{flex-shrink:0;margin-top:2px}
+.callout.info{background:rgba(0,120,212,.07);border-color:var(--azure);color:#1e3a5f}
+.callout.info i{color:var(--azure)}
+.callout.warn{background:rgba(245,158,11,.08);border-color:var(--gold);color:#5a3e00}
+.callout.warn i{color:var(--gold)}
+.callout.ok{background:rgba(16,185,129,.08);border-color:var(--mint);color:#064e3b}
+.callout.ok i{color:var(--mint)}
+.callout.purple{background:rgba(124,58,237,.07);border-color:var(--bora);color:#3b0764}
+.callout.purple i{color:var(--bora)}
+
+/* URL Block */
+.url-block{
+  background:rgba(13,10,30,.85);backdrop-filter:blur(12px);
+  border-radius:12px;padding:14px 18px;margin:12px 0;
+  display:flex;align-items:center;gap:12px;
+  border:1px solid rgba(124,58,237,.25);
+}
+.url-lock{color:#50E6FF;font-size:.8rem}
+.url-text{
+  font-family:'Space Mono',monospace;font-size:.78rem;
+  color:#50E6FF;flex:1;word-break:break-all;
+}
+.url-copy{
+  background:rgba(124,58,237,.3);border:1px solid rgba(124,58,237,.4);
+  color:#A78BFA;padding:5px 12px;border-radius:8px;
+  font-size:.68rem;cursor:none;transition:all .2s;white-space:nowrap;
+  font-family:'Inter',sans-serif;font-weight:600;
+}
+.url-copy:hover{background:var(--bora);color:#fff}
+.url-copy.copied{background:rgba(16,185,129,.3);color:#6ee7b7;border-color:#10B981}
+
+/* Portal Mock */
+.portal-mock{
+  background:linear-gradient(135deg,#001F3F,#003087,#0078D4);
+  border-radius:16px;padding:28px;margin:16px 0;
+  display:flex;flex-direction:column;align-items:center;gap:14px;
+  box-shadow:0 12px 40px rgba(0,120,212,.3);
+  position:relative;overflow:hidden;
+}
+.portal-mock::before{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M20 20.5V18H0v5h5v5H0v5h20v-9.5zm-2 9.5H2v-3h2v-5H2v-3h16v11zm-1-4.5V22h-2v-3H5v3H3v3h14v1.5zM40 0H20v18h20V0zm-2 16H22V2h16v14zm-1-2H23V3h14v11z'/%3E%3C/g%3E%3C/svg%3E");
+}
+.portal-header{
+  display:flex;align-items:center;gap:8px;color:#fff;font-weight:700;font-size:.9rem;
+  position:relative;z-index:1;
+}
+.ms-squares span{font-size:1rem}
+.portal-card{
+  background:rgba(255,255,255,.96);border-radius:14px;
+  padding:22px 24px;width:100%;max-width:360px;
+  position:relative;z-index:1;
+  box-shadow:0 16px 40px rgba(0,0,0,.25);
+}
+.portal-card h4{font-size:.9rem;font-weight:700;color:#1B1A1F;margin-bottom:14px}
+.pf{margin-bottom:10px}
+.pf label{font-size:.68rem;color:#666;display:block;margin-bottom:3px;font-weight:600;letter-spacing:.03em}
+.pf input{
+  width:100%;padding:8px 12px;border:1.5px solid #d1d5db;border-radius:8px;
+  font-size:.82rem;color:#333;background:#fff;outline:none;
+  transition:border-color .2s;font-family:'Inter',sans-serif;
+}
+.pf input:focus{border-color:#0078D4}
+.pf input.highlight{border-color:#0078D4;background:#EFF6FF}
+.ms-btn{
+  width:100%;background:#0078D4;color:#fff;border:none;
+  padding:10px;border-radius:8px;font-weight:700;font-size:.88rem;
+  margin-top:8px;cursor:pointer;letter-spacing:.02em;
+}
+
+/* Results mock */
+.result-mock{
+  background:rgba(255,255,255,.9);backdrop-filter:blur(12px);
+  border-radius:14px;padding:20px;margin:14px 0;
+  border:1.5px solid rgba(124,58,237,.12);
+  box-shadow:0 4px 20px rgba(124,58,237,.08);
+}
+.credit-card{
+  display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;
+}
+.cc-item{
+  background:linear-gradient(135deg,var(--bora),#4c1d95);
+  border-radius:12px;padding:16px;text-align:center;color:#fff;
+}
+.cc-item.azure-bg{background:linear-gradient(135deg,#0078D4,#1e40af)}
+.cc-item.green-bg{background:linear-gradient(135deg,#059669,#10B981)}
+.cc-big{font-family:'Syne',sans-serif;font-weight:800;font-size:1.8rem;line-height:1}
+.cc-small{font-size:.68rem;opacity:.8;margin-top:4px}
+
+/* GIF GRID for members */
+.member-mini-grid{
+  display:grid;grid-template-columns:repeat(7,1fr);gap:10px;
+  margin:28px 0;
+}
+.member-mini{text-align:center;cursor:none}
+.member-mini-gif{
+  width:60px;height:60px;border-radius:50%;overflow:hidden;margin:0 auto 6px;
+  border:2.5px solid transparent;
+  background:linear-gradient(#fff,#fff) padding-box,
+             linear-gradient(135deg,var(--bora),var(--rose)) border-box;
+  box-shadow:0 4px 16px rgba(124,58,237,.2);
+  transition:transform .3s,box-shadow .3s;
+}
+.member-mini-gif:hover{transform:scale(1.15);box-shadow:0 8px 24px rgba(124,58,237,.4)}
+.member-mini-gif img{width:100%;height:100%;object-fit:cover}
+.member-mini-name{font-size:.62rem;font-weight:700;color:var(--bora);letter-spacing:.05em}
+
+/* Checklist */
+.checklist{list-style:none;margin:12px 0}
+.checklist li{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:9px 0;border-bottom:1px solid rgba(124,58,237,.08);
+  font-size:.86rem;color:#3D3060;line-height:1.6;
+}
+.checklist li:last-child{border-bottom:none}
+.cl-icon{
+  width:22px;height:22px;border-radius:6px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--mint),#6ee7b7);
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:.62rem;margin-top:2px;
+}
+
+/* Info box */
+.info-box{
+  background:var(--glass);backdrop-filter:blur(16px);
+  border:1.5px solid var(--glass-border);border-radius:16px;padding:20px 24px;
+  box-shadow:var(--shadow);margin:16px 0;
+}
+.info-box h4{
+  font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;
+  color:var(--ink);margin-bottom:10px;display:flex;align-items:center;gap:8px;
+}
+.info-box p,.info-box li{font-size:.84rem;color:#3D3060;line-height:1.8}
+.info-box ul{padding-left:18px}
+
+/* Code */
+.code-wrap{
+  background:#0D0A1E;border-radius:14px;overflow:hidden;
+  box-shadow:0 8px 32px rgba(0,0,0,.3);margin:14px 0;
+  border:1px solid rgba(124,58,237,.2);
+}
+.code-top{
+  background:#161020;padding:10px 18px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid rgba(124,58,237,.15);
+}
+.code-lang{
+  font-family:'Space Mono',monospace;font-size:.65rem;
+  letter-spacing:.15em;text-transform:uppercase;color:#A78BFA;
+  display:flex;align-items:center;gap:8px;
+}
+.code-lang::before{
+  content:'';width:8px;height:8px;border-radius:50%;
+  background:linear-gradient(135deg,var(--bora),var(--rose));
+}
+.copy-code{
+  background:rgba(124,58,237,.2);border:1px solid rgba(124,58,237,.3);
+  color:#A78BFA;padding:4px 12px;border-radius:8px;
+  font-size:.65rem;cursor:none;transition:all .2s;
+  font-family:'Inter',sans-serif;font-weight:600;
+}
+.copy-code:hover{background:var(--bora);color:#fff}
+.copy-code.ok{background:rgba(16,185,129,.25);color:#6ee7b7;border-color:#10B981}
+pre{
+  padding:20px;overflow-x:auto;
+  font-family:'Space Mono',monospace;font-size:.77rem;
+  line-height:1.85;color:#E6EDF3;
+}
+.kw{color:#FF7B72}.fn{color:#D2A8FF}.st{color:#A5D6FF}
+.cm{color:#8B949E;font-style:italic}.num{color:#79C0FF}
+
+/* GOLDEN SECTION */
+.golden-section{
+  background:linear-gradient(135deg,#0D0A1E 0%,#1e1040 60%,#0a1628 100%);
+  padding:80px 48px;position:relative;overflow:hidden;
+}
+.golden-section::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 50% 40% at 20% 50%, rgba(124,58,237,.25) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 80% 30%, rgba(0,120,212,.2) 0%, transparent 60%),
+    radial-gradient(ellipse 30% 30% at 50% 80%, rgba(236,72,153,.15) 0%, transparent 60%);
+  pointer-events:none;
+}
+.golden-inner{max-width:1200px;margin:0 auto;position:relative;z-index:1}
+.golden-section .sec-eyebrow{color:var(--bora2)}
+.golden-section .sec-eyebrow::before{background:var(--bora2)}
+.golden-section h2.sec-h{color:#fff}
+
+.golden-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.golden-card{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(124,58,237,.2);
+  border-radius:16px;padding:20px;
+  backdrop-filter:blur(8px);
+  transition:transform .3s,border-color .3s;
+}
+.golden-card:hover{transform:translateY(-4px);border-color:rgba(167,139,250,.4)}
+.golden-card h4{
+  font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;
+  margin-bottom:10px;display:flex;align-items:center;gap:8px;
+}
+.golden-card.purple-c h4{color:var(--bora2)}
+.golden-card.azure-c h4{color:var(--azure2)}
+.golden-card.rose-c h4{color:var(--rose2)}
+.golden-card.gold-c h4{color:var(--gold)}
+.golden-card ul{list-style:none}
+.golden-card li{font-size:.8rem;color:#9CA3AF;line-height:1.9;display:flex;align-items:flex-start;gap:6px}
+.golden-card li::before{content:'→';flex-shrink:0;color:rgba(167,139,250,.5);margin-top:2px}
+
+/* FOOTER */
+footer{
+  background:#07050F;color:#4B5563;text-align:center;
+  padding:36px;font-size:.82rem;
+  border-top:1px solid rgba(124,58,237,.15);
+}
+footer strong{color:var(--bora2)}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .65s,transform .65s}
+.rv.vis{opacity:1;transform:none}
+
+/* PROGRESS BAR FLOATING */
+#progress-bar{
+  position:fixed;top:0;left:0;height:3px;z-index:600;
+  background:linear-gradient(90deg,var(--bora),var(--rose),var(--azure2));
+  transition:width .3s ease;border-radius:0 2px 2px 0;
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .hero-inner{grid-template-columns:1fr}
+  .hero-card{display:none}
+  .section{padding:60px 20px}
+  #hero{padding:100px 20px 60px}
+  .nav-steps{display:none}
+  .credit-card{grid-template-columns:1fr}
+  .member-mini-grid{grid-template-columns:repeat(4,1fr)}
+  .golden-grid{grid-template-columns:1fr 1fr}
+  .golden-section{padding:60px 20px}
+}
+</style>
+</head>
+<body>
+
+<!-- ── ORBS ── -->
+<div class="orb" style="width:500px;height:500px;background:rgba(124,58,237,.12);top:-100px;right:-100px;animation-delay:0s"></div>
+<div class="orb" style="width:400px;height:400px;background:rgba(0,120,212,.1);bottom:-80px;left:-80px;animation-delay:3s"></div>
+<div class="orb" style="width:300px;height:300px;background:rgba(236,72,153,.08);top:40%;left:40%;animation-delay:1.5s"></div>
+
+<!-- ── CURSOR ── -->
+<div id="cursor-ring"></div>
+<div id="cursor-dot"></div>
+
+<!-- ── PROGRESS ── -->
+<div id="progress-bar" style="width:0%"></div>
+
+<!-- ══════════════════ SPLASH ══════════════════ -->
+<div id="splash">
+  <div class="splash-stars" id="stars"></div>
+  <div class="splash-logo">UPLA · Base de Datos II · Semana 10</div>
+  <div class="splash-gif">
+    <img src="https://wsrv.nl/?url=media2.giphy.com/media/kDXxjwpazm9b2LzOMc/giphy.gif&n=-1" alt="BTS" onerror="this.src='';this.parentElement.style.background='linear-gradient(135deg,#7C3AED,#EC4899)'">
+  </div>
+  <h1 class="splash-title">Manual <span>Azure for Students</span><br>Guía Paso a Paso</h1>
+  <p class="splash-sub">Activa tu cuenta en Microsoft Azure con tu correo UPLA<br>y obtén $100 USD de crédito gratuito — presentado por BTS 💜</p>
+  <button class="splash-btn" onclick="startExp()">✦ COMENZAR MANUAL</button>
+</div>
+
+<!-- ══════════════════ MAIN ══════════════════ -->
+<div id="main">
+
+<!-- NAV -->
+<nav id="topnav">
+  <div class="nav-logo">
+    Manual Azure
+    <span class="pill">Semana 10</span>
+  </div>
+  <div class="nav-steps">
+    <a class="nav-step" href="#prereq"><div class="step-dot">0</div>Prerrequisito</a>
+    <a class="nav-step" href="#paso1"><div class="step-dot">1</div>Acceder al Portal</a>
+    <a class="nav-step" href="#paso2"><div class="step-dot">2</div>Iniciar Sesión</a>
+    <a class="nav-step" href="#paso3"><div class="step-dot">3</div>Verificación</a>
+    <a class="nav-step" href="#paso4"><div class="step-dot">4</div>Registro</a>
+    <a class="nav-step" href="#paso5"><div class="step-dot">5</div>Confirmación</a>
+    <a class="nav-step" href="#bonus"><div class="step-dot">★</div>Monitoreo</a>
+  </div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section id="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">Manual Técnico · UPLA 2026</div>
+      <h1 class="hero-h">
+        Activar <span class="accent">Azure for Students</span><br>
+        con correo institucional
+      </h1>
+      <p class="hero-desc">
+        Guía completa y visual para que todo estudiante de la UPLA active su cuenta en Microsoft Azure, obtenga $100 USD de crédito renovable anualmente y empiece a desplegar servicios en la nube — sin tarjeta de crédito.
+      </p>
+      <div class="hero-chips">
+        <div class="chip"><i class="fab fa-microsoft" style="color:#0078D4"></i> Azure for Students</div>
+        <div class="chip"><i class="fas fa-envelope" style="color:var(--bora)"></i> @upla.edu.pe</div>
+        <div class="chip"><i class="fas fa-gift" style="color:var(--rose)"></i> $100 USD gratis</div>
+        <div class="chip"><i class="fas fa-credit-card" style="color:var(--mint);text-decoration:line-through"></i> Sin tarjeta</div>
+        <div class="chip"><i class="fas fa-redo" style="color:var(--gold)"></i> Renovable anual</div>
+      </div>
+    </div>
+    <div class="hero-card rv">
+      <div class="hero-gif-frame">
+        <div class="hero-gif-inner">
+          <img src="https://wsrv.nl/?url=media2.giphy.com/media/09yKShw2QLe4xzg0q6/giphy.gif&n=-1" alt="RM" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#7C3AED,#A78BFA)';this.parentElement.style.display='flex';this.parentElement.style.alignItems='center';this.parentElement.style.justifyContent='center';this.parentElement.innerHTML='<span style=font-size:5rem>🎤</span>'">
+        </div>
+      </div>
+      <div class="hero-badge">
+        <div class="hero-badge-icon"><i class="fab fa-microsoft"></i></div>
+        <div class="hero-badge-text">
+          RM — Kim Namjoon
+          <small>Guía este manual paso a paso</small>
+        </div>
+      </div>
+      <div class="hero-tag">
+        <span class="big">$100</span>
+        USD Gratis
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BTS MEMBERS ROW -->
+<div style="background:var(--glass);backdrop-filter:blur(20px);border-top:1px solid var(--glass-border);border-bottom:1px solid var(--glass-border);padding:24px 48px">
+  <div class="member-mini-grid" style="max-width:600px;margin:0 auto">
+    <div class="member-mini">
+      <div class="member-mini-gif"><img src="https://wsrv.nl/?url=media2.giphy.com/media/09yKShw2QLe4xzg0q6/giphy.gif&n=-1" alt="RM" onerror="this.parentElement.style.background='linear-gradient(135deg,#7C3AED,#A78BFA)'"></div>
+      <div class="member-mini-name">RM</div>
+    </div>
+    <div class="member-mini">
+      <div class="member-mini-gif"><img src="https://wsrv.nl/?url=media2.giphy.com/media/GXj7ncA3Txn6E/giphy.gif&n=-1" alt="SUGA" onerror="this.parentElement.style.background='linear-gradient(135deg,#1E1040,#5B21B6)'"></div>
+      <div class="member-mini-name">SUGA</div>
+    </div>
+    <div class="member-mini">
+      <div class="member-mini-gif"><img src="https://wsrv.nl/?url=media3.giphy.com/media/Z6POKNooyzEEalwCIG/giphy.gif&n=-1" alt="J-HOPE" onerror="this.parentElement.style.background='linear-gradient(135deg,#F59E0B,#FBBF24)'"></div>
+      <div class="member-mini-name">J-HOPE</div>
+    </div>
+    <div class="member-mini">
+      <div class="member-mini-gif"><img src="https://wsrv.nl/?url=media2.giphy.com/media/ziArD8M9Bfd6ROFhHc/giphy.gif&n=-1" alt="JIMIN" onerror="this.parentElement.style.background='linear-gradient(135deg,#EC4899,#F9A8D4)'"></div>
+      <div class="member-mini-name">JIMIN</div>
+    </div>
+    <div class="member-mini">
+      <div class="member-mini-gif"><img src="https://wsrv.nl/?url=media2.giphy.com/media/2kWl78WJFREVw3p0AR/giphy.gif&n=-1" alt="V" onerror="this.parentElement.style.background='linear-gradient(135deg,#10B981,#6EE7B7)'"></div>
+      <div class="member-mini-name">V</div>
+    </div>
+    <div class="member-mini">
+      <div class="member-mini-gif"><img src="https://wsrv.nl/?url=media1.giphy.com/media/8Kjx7lJdiBYsp3AMHk/giphy.gif&n=-1" alt="JUNGKOOK" onerror="this.parentElement.style.background='linear-gradient(135deg,#7C3AED,#EC4899)'"></div>
+      <div class="member-mini-name">JUNGKOOK</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PRERREQUISITO ══ -->
+<section class="section" id="prereq">
+  <div class="sec-eyebrow">Antes de empezar</div>
+  <h2 class="sec-h">Prerrequisito — <em>Correo Institucional</em></h2>
+  <p class="sec-desc">Para activar Azure for Students necesitas tu correo UPLA oficial. Verifica que tengas acceso antes de continuar.</p>
+
+  <div class="member-card rv">
+    <div class="member-gif"><img src="https://wsrv.nl/?url=media2.giphy.com/media/09yKShw2QLe4xzg0q6/giphy.gif&n=-1" alt="RM" onerror="this.parentElement.style.background='linear-gradient(135deg,#7C3AED,#A78BFA)';this.style.display='none'"></div>
+    <div class="member-info">
+      <div class="name">RM — Kim Namjoon</div>
+      <div class="role">Líder · Guía Académica</div>
+      <div class="quote">"Estimado profesor, antes de dar el primer paso necesitamos el arma más importante: el correo institucional. Sin él, no hay acceso al beneficio Azure for Students."</div>
+    </div>
+  </div>
+
+  <div class="steps-wrap">
+    <div class="step-card rv">
+      <div class="step-head">
+        <div class="step-num-badge">0</div>
+        <div>
+          <div class="step-title">Tu correo institucional UPLA <span class="tag-badge tag-critical">OBLIGATORIO</span></div>
+          <div class="step-sub">Asegúrate de tener acceso a este correo antes de iniciar</div>
+        </div>
+      </div>
+      <div class="step-body">
+        <p>El correo institucional para este manual es:</p>
+        <div class="url-block" style="margin-top:12px">
+          <i class="fas fa-envelope url-lock" style="color:var(--bora2)"></i>
+          <span class="url-text" style="color:var(--bora2)">T01283B@ms.upla.edu.pe</span>
+          <button class="url-copy" onclick="copyTxt(this,'T01283B@ms.upla.edu.pe')">Copiar</button>
+        </div>
+        <div class="callout info" style="margin-top:12px">
+          <i class="fas fa-info-circle"></i>
+          <div>Azure for Students usa el dominio <strong>@ms.upla.edu.pe</strong> para verificar tu condición de estudiante activo. Este es el identificador que Microsoft reconoce como cuenta educativa válida de la UPLA.</div>
+        </div>
+        <div class="callout purple">
+          <i class="fas fa-shield-alt"></i>
+          <div><strong>Requisitos:</strong> Ser estudiante activo de la UPLA · Mayor de 18 años · El beneficio es de una suscripción por estudiante · No combinable con otras ofertas.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ PASO 1 ══ -->
+<section class="section" id="paso1">
+  <div class="sec-eyebrow">Paso 01</div>
+  <h2 class="sec-h">Acceder al <em>Portal Azure for Students</em></h2>
+  <p class="sec-desc">Ingresa al portal oficial usando una ventana de navegación privada para evitar conflictos con otras cuentas Microsoft.</p>
+
+  <div class="steps-wrap">
+    <div class="step-card rv">
+      <div class="step-head">
+        <div class="step-num-badge azure">1</div>
+        <div>
+          <div class="step-title"><i class="fas fa-shield-alt" style="color:var(--azure)"></i> Abrir ventana privada / InPrivate <span class="tag-badge tag-tip">RECOMENDADO</span></div>
+          <div class="step-sub">Evita conflictos con cuentas personales de Microsoft</div>
+        </div>
+      </div>
+      <div class="step-body">
+        <ul>
+          <li>Abre <strong>Microsoft Edge</strong> → presiona <strong>Ctrl + Shift + N</strong> (InPrivate)</li>
+          <li>En Chrome: <strong>Ctrl + Shift + N</strong> (Incógnito)</li>
+          <li>En Firefox: <strong>Ctrl + Shift + P</strong> (Privada)</li>
+        </ul>
+        <div class="callout purple">
+          <i class="fas fa-lightbulb"></i>
+          <div>Se recomienda <strong>Microsoft Edge</strong> porque tiene integración nativa con servicios Microsoft y reduce errores de autenticación en portales oficiales.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card rv" style="transition-delay:.1s">
+      <div class="step-head">
+        <div class="step-num-badge azure">2</div>
+        <div>
+          <div class="step-title"><i class="fas fa-globe" style="color:var(--azure)"></i> Navegar al portal oficial</div>
+          <div class="step-sub">Pega exactamente esta URL en la barra de direcciones</div>
+        </div>
+      </div>
+      <div class="step-body">
+        <div class="url-block">
+          <i class="fas fa-lock url-lock"></i>
+          <span class="url-text">https://azure.microsoft.com/es-mx/free/students/?WT.mc_id=academic-0000-cxa</span>
+          <button class="url-copy" onclick="copyTxt(this,'https://azure.microsoft.com/es-mx/free/students/?WT.mc_id=academic-0000-cxa')">Copiar</button>
+        </div>
+
+        <!-- Portal mock visual -->
+        <div class="portal-mock">
+          <div class="portal-header">
+            <div class="ms-squares"><span>🟥</span><span>🟩</span><span>🟦</span><span>🟨</span></div>
+            <span>Microsoft Azure</span>
+          </div>
+          <div style="text-align:center;color:#fff;max-width:400px;position:relative;z-index:1">
+            <div style="font-size:1.3rem;font-weight:800;margin-bottom:8px;line-height:1.2">
+              Crear soluciones en la nube gratis<br>con <span style="color:#50E6FF">Azure for Students</span>
+            </div>
+            <div style="font-size:.82rem;opacity:.8;margin-bottom:20px">Usa el correo de tu universidad para registrarte y renovar cada año</div>
+            <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+              <div style="background:#0078D4;color:#fff;padding:11px 28px;border-radius:6px;font-weight:700;font-size:.88rem">Empezar gratis →</div>
+              <div style="background:transparent;color:#fff;border:1px solid rgba(255,255,255,.4);padding:11px 20px;border-radius:6px;font-size:.88rem">Más información</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:340px;color:#fff;position:relative;z-index:1">
+            <div style="text-align:center;background:rgba(255,255,255,.08);border-radius:12px;padding:14px">
+              <div style="font-size:1.6rem;font-weight:800">$100</div>
+              <div style="font-size:.72rem;opacity:.7">Comenzar con un crédito<br>de Azure de 100 USD</div>
+            </div>
+            <div style="text-align:center;background:rgba(255,255,255,.08);border-radius:12px;padding:14px">
+              <div style="font-size:1.6rem;font-weight:800">✓</div>
+              <div style="font-size:.72rem;opacity:.7">No se requiere<br>tarjeta de crédito</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card rv" style="transition-delay:.2s">
+      <div class="step-head">
+        <div class="step-num-badge azure">3</div>
+        <div>
+          <div class="step-title"><i class="fas fa-mouse-pointer" style="color:var(--azure)"></i> Hacer clic en "Empezar gratis"</div>
+          <div class="step-sub">Botón azul en la parte central de la página</div>
+        </div>
+      </div>
+      <div class="step-body">
+        <p>Localiza el botón azul <strong>"Empezar gratis"</strong> y haz clic. Esto iniciará el proceso de registro y verificación de identidad estudiantil mediante tu correo institucional.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ PASO 2 ══ -->
+<section class="section" id="paso2">
+  <div class="sec-eyebrow">Paso 02</div>
+  <h2 class="sec-h">Iniciar Sesión con <em>Correo UPLA</em></h2>
+
+  <div class="member-card rv">
+    <div class="member-gif"><img src="https://wsrv.nl/?url=media2.giphy.com/media/GXj7ncA3Txn6E/giphy.gif&n=-1" alt="SUGA" onerror="this.parentElement.style.background='linear-gradient(135deg,#1E1040,#5B21B6)';this.style.display='none'"></div>
+    <div class="member-info">
+      <div class="name">SUGA — Min Yoongi</div>
+      <div class="role">Análisis Crítico · Seguridad</div>
+      <div class="quote">"Con precisión absoluta: usa solo el correo institucional. Un error aquí y todo el proceso falla. Los datos correctos son la base de todo."</div>
+    </div>
+  </div>
+
+  <div class="steps-wrap">
+    <div class="step-card rv">
+      <div class="step-head">
+        <div class="step-num-badge rose">4</div>
+        <div>
+          <div class="step-title"><i class="fas fa-sign-in-alt" style="color:var(--rose)"></i> Pantalla de inicio de sesión Microsoft <span class="tag-badge tag-critical">CRÍTICO</span></div>
+          <div class="step-sub">Ingresa exclusivamente tu correo institucional</div>
+        </div>
+      </div>
+      <div class="step-body">
+        <p>Aparecerá la pantalla de inicio de sesión de Microsoft. <strong>Ingresa SOLO tu correo institucional UPLA</strong>:</p>
+
+        <div style="max-width:380px;margin:16px auto">
+          <div class="portal-mock" style="background:linear-gradient(135deg,#F3F2F1,#e5e3e0)">
+            <div class="portal-card" style="max-width:100%">
+              <div style="margin-bottom:8px;font-size:.9rem">
+                <span style="color:#F25022">■</span><span style="color:#7FBA00">■</span><span style="color:#00A4EF">■</span><span style="color:#FFB900">■</span>
+                <strong style="font-size:.88rem;margin-left:4px">Microsoft</strong>
+              </div>
+              <h4 style="margin-top:8px">Iniciar sesión</h4>
+              <div class="pf" style="margin-top:12px">
+                <input type="text" value="T01283B@ms.upla.edu.pe" class="highlight" readonly>
+              </div>
+              <div style="font-size:.7rem;color:#666;margin-bottom:10px">¿No tiene una cuenta? <span style="color:#0078D4">Crear una.</span></div>
+              <div style="font-size:.7rem;color:#666;margin-bottom:12px">¿No puede acceder a su cuenta? <span style="color:#0078D4">Haga clic aquí.</span></div>
+              <div class="ms-btn" style="cursor:default">Siguiente</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout warn">
+          <i class="fas fa-exclamation-triangle"></i>
+          <div>Si aparece un error de autenticación, cierra el navegador, abre una <strong>nueva ventana InPrivate</strong> y vuelve a intentarlo. Asegúrate de no tener otra sesión de Microsoft activa.</div>
+        </div>
+        <div class="callout ok">
+          <i class="fas fa-check-circle"></i>
+          <div>El correo correcto para usar es: <strong>T01283B@ms.upla.edu.pe</strong> — usa exactamente este formato, respetando mayúsculas y minúsculas.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ PASO 3 ══ -->
+<section class="section" id="paso3">
+  <div class="sec-eyebrow">Paso 03</div>
+  <h2 class="sec-h">Formulario de <em>Verificación Estudiantil</em></h2>
+
+  <div class="member-card rv">
+    <div class="member-gif"><img src="https://wsrv.nl/?url=media3.giphy.com/media/Z6POKNooyzEEalwCIG/giphy.gif&n=-1" alt="J-HOPE" onerror="this.parentElement.style.background='linear-gradient(135deg,#F59E0B,#FBBF24)';this.style.display='none'"></div>
+    <div class="member-info">
+      <div class="name">J-HOPE — Jung Hoseok</div>
+      <div class="role">Energía y Motivación · Práctica</div>
+      <div class="quote">"¡Con esperanza y energía positiva llenamos este formulario! Cada campo es un paso más hacia tus $100 USD de crédito. ¡Vamos!"</div>
+    </div>
+  </div>
+
+  <div class="steps-wrap">
+    <div class="step-card rv">
+      <div class="step-head">
+        <div class="step-num-badge" style="background:linear-gradient(135deg,#F59E0B,#FBBF24)">5</div>
+        <div>
+          <div class="step-title"><i class="fas fa-user-check" style="color:var(--gold)"></i> Completar datos del formulario</div>
+          <div class="step-sub">Comprobación de estudiante — Microsoft Azure</div>
+        </div>
+      </div>
+      <div class="step-body">
+        <p>Completa el formulario con tu información exacta de la UPLA:</p>
+
+        <div style="max-width:420px;margin:16px auto">
+          <div class="portal-mock" style="background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460)">
+            <div class="portal-card" style="max-width:100%">
+              <h4 style="color:#0078D4">Comprobación de estudiante</h4>
+              <p style="font-size:.72rem;color:#666;margin-bottom:14px">Para empezar, escriba su nombre según los registros de la escuela.</p>
+
+              <div class="pf"><label>Nombre</label><input type="text" placeholder="Tu nombre(s)" style="border-color:#d1d5db"></div>
+              <div class="pf"><label>Apellidos</label><input type="text" placeholder="Tu apellido paterno y materno"></div>
+              <div class="pf">
+                <label>País o región</label>
+                <input type="text" value="Perú" class="highlight" readonly>
+              </div>
+              <div class="pf">
+                <label>Nombre de la escuela <span style="color:red">★</span></label>
+                <input type="text" value="Universidad Peruana Los Andes" class="highlight" readonly>
+              </div>
+              <div class="pf"><label>Fecha de nacimiento</label><input type="text" placeholder="dd/mm/aaaa"></div>
+              <div class="pf">
+                <label>Dirección de correo electrónico educativa</label>
+                <input type="text" value="T01283B@ms.upla.edu.pe" class="highlight" readonly>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout info">
+          <i class="fas fa-info-circle"></i>
+          <div>En el campo <strong>"Nombre de la escuela"</strong> escribe exactamente: <code style="background:var(--bora3);padding:2px 7px;border-radius:4px;font-family:monospace;font-size:.82rem">Universidad Peruana Los Andes</code></div>
+        </div>
+        <div class="callout purple">
+          <i class="fas fa-mobile-alt"></i>
+          <div>Se requerirá <strong>verificación adicional por teléfono</strong>. Ten a mano tu número de celular para recibir el código SMS de confirmación.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card rv" style="transition-delay:.1s">
+      <div class="step-head">
+        <div class="step-num-badge" style="background:linear-gradient(135deg,#F59E0B,#FBBF24)">6</div>
+        <div>
+          <div class="step-title"><i class="fas fa-spinner" style="color:var(--gold)"></i> Esperar confirmación de cuenta</div>
+          <div class="step-sub">Unos segundos de paciencia ☁️</div>
+        </div>
+      </div>
+      <div class="step-body">
+        <p>Verás la pantalla <em>"Confirmando su cuenta..."</em>. No cierres el navegador ni navegues a otra página durante este proceso. Azure está verificando tu identidad estudiantil.</p>
+        <div class="callout warn">
+          <i class="fas fa-exclamation-triangle"></i>
+          <div>Si el proceso tarda más de 2 minutos, refresca la página y vuelve a intentarlo. Si persiste el problema, usa el botón "Resolución de rompecabezas" que aparece en el formulario.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ PASO 4 ══ -->
+<section class="section" id="paso4">
+  <div class="sec-eyebrow">Paso 04</div>
+  <h2 class="sec-h">Completar Perfil y <em>Registrarse</em></h2>
+
+  <div class="member-card rv">
+    <div class="member-gif"><img src="https://wsrv.nl/?url=media2.giphy.com/media/ziArD8M9Bfd6ROFhHc/giphy.gif&n=-1" alt="JIMIN" onerror="this.parentElement.style.background='linear-gradient(135deg,#EC4899,#F9A8D4)';this.style.display='none'"></div>
+    <div class="member-info">
+      <div class="name">JIMIN — Park Jimin</div>
+      <div class="role">Detalle y Precisión · Perfilamiento</div>
+      <div class="quote">"Los detalles importan. Un perfil completo y correcto garantiza que tu cuenta funcione perfectamente desde el primer día."</div>
+    </div>
+  </div>
+
+  <div class="steps-wrap">
+    <div class="step-card rv">
+      <div class="step-head">
+        <div class="step-num-badge rose">7</div>
+        <div>
+          <div class="step-title"><i class="fas fa-id-card" style="color:var(--rose)"></i> Completar "Su perfil" con datos de dirección</div>
+          <div class="step-sub">Puedes usar la dirección de la UPLA Huancayo</div>
+        </div>
+      </div>
+      <div class="step-body">
+        <ul>
+          <li><strong>País o región:</strong> Perú</li>
+          <li><strong>Nombre y Apellido:</strong> completa con tu nombre real</li>
+          <li><strong>Dirección de correo:</strong> T01283B@ms.upla.edu.pe</li>
+          <li><strong>Teléfono:</strong> tu número de celular activo</li>
+        </ul>
+        <div class="callout purple">
+          <i class="fas fa-map-marker-alt"></i>
+          <div><strong>Dirección sugerida (sede UPLA):</strong> Jr. Loreto N° 590, Huancayo, Junín, Perú.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card rv" style="transition-delay:.1s">
+      <div class="step-head">
+        <div class="step-num-badge rose">8</div>
+        <div>
+          <div class="step-title"><i class="fas fa-file-contract" style="color:var(--rose)"></i> Aceptar términos y hacer clic en "Registrarse"</div>
+          <div class="step-sub">Último paso del formulario</div>
+        </div>
+      </div>
+      <div class="step-body">
+        <ul>
+          <li>✅ <strong>Acepto el contrato de cliente</strong> (obligatorio)</li>
+          <li>✅ Me gustaría recibir información sobre Azure (opcional)</li>
+          <li>✅ Quiero que Microsoft comparta mi información con partners (opcional)</li>
+        </ul>
+        <p style="margin-top:10px">Haz clic en el botón azul <strong>"Registrarse"</strong> para completar el proceso.</p>
+        <div class="callout ok">
+          <i class="fas fa-check-circle"></i>
+          <div>Verás la pantalla <strong>"Configurando la cuenta..."</strong> seguida de la confirmación de registro exitoso.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ PASO 5 ══ -->
+<section class="section" id="paso5">
+  <div class="sec-eyebrow">Paso 05</div>
+  <h2 class="sec-h">¡Cuenta Activada! — <em>Verificar Créditos</em></h2>
+
+  <div class="member-card rv">
+    <div class="member-gif"><img src="https://wsrv.nl/?url=media2.giphy.com/media/2kWl78WJFREVw3p0AR/giphy.gif&n=-1" alt="V" onerror="this.parentElement.style.background='linear-gradient(135deg,#10B981,#6EE7B7)';this.style.display='none'"></div>
+    <div class="member-info">
+      <div class="name">V — Kim Taehyung</div>
+      <div class="role">Visual Insights · Celebración</div>
+      <div class="quote">"¡El momento que estábamos esperando! Tu cuenta está activa y lista. Mira los datos más importantes de tu nueva suscripción."</div>
+    </div>
+  </div>
+
+  <div class="steps-wrap">
+    <div class="step-card rv">
+      <div class="step-head">
+        <div class="step-num-badge green">9</div>
+        <div>
+          <div class="step-title"><i class="fas fa-check-circle" style="color:var(--mint)"></i> Education Hub — Verificar crédito disponible <span class="tag-badge tag-done">✓ COMPLETADO</span></div>
+          <div class="step-sub">Serás redirigido automáticamente al portal de educación Azure</div>
+        </div>
+      </div>
+      <div class="step-body">
+        <p>Después del registro exitoso, Azure te redirige al <strong>Education Hub</strong>. Aquí verás tu crédito disponible de <strong>$100 USD</strong>.</p>
+
+        <div class="result-mock">
+          <div style="font-size:.8rem;font-weight:700;color:var(--muted);margin-bottom:12px;font-family:'Space Mono',monospace;letter-spacing:.05em">EDUCATION HUB · INFORMACIÓN GENERAL</div>
+          <div class="credit-card">
+            <div class="cc-item">
+              <div class="cc-big">$100</div>
+              <div class="cc-small">💰 Créditos disponibles<br>de USD 100</div>
+            </div>
+            <div class="cc-item azure-bg">
+              <div class="cc-big">366</div>
+              <div class="cc-small">📅 Días hasta vencimiento<br>renovable anualmente</div>
+            </div>
+            <div class="cc-item green-bg">
+              <div class="cc-big">$0</div>
+              <div class="cc-small">💸 Costo del mes actual<br>sin cargos aún</div>
+            </div>
+          </div>
+          <div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div style="background:#F9FAFB;border-radius:10px;padding:12px;font-size:.78rem">
+              <div style="font-weight:700;color:var(--ink);margin-bottom:4px">Software libre incluido:</div>
+              <div style="color:var(--muted)">· SQL Server 2022 Developer<br>· Visual Studio 2019<br>· Hyper-V Server 2019</div>
+            </div>
+            <div style="background:#F9FAFB;border-radius:10px;padding:12px;font-size:.78rem">
+              <div style="font-weight:700;color:var(--ink);margin-bottom:4px">Servicios gratuitos:</div>
+              <div style="color:var(--muted)">· Azure Virtual Machines<br>· Azure Blob Storage<br>· Computer Vision API</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout ok">
+          <i class="fas fa-party-popper"></i>
+          <div><strong>¡Felicitaciones!</strong> Tu cuenta Azure for Students está activa con <strong>$100 USD de crédito</strong>. Ahora puedes acceder a todos los servicios de Azure, incluyendo Azure SQL Database para alojar tu base de datos GradosTítulos.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ BONUS — MONITOREO ══ -->
+<section class="section" id="bonus">
+  <div class="sec-eyebrow">Bonus · Buenas Prácticas</div>
+  <h2 class="sec-h">Monitorear tu <em>Consumo de Créditos</em></h2>
+
+  <div class="member-card rv">
+    <div class="member-gif"><img src="https://wsrv.nl/?url=media1.giphy.com/media/8Kjx7lJdiBYsp3AMHk/giphy.gif&n=-1" alt="JUNGKOOK" onerror="this.parentElement.style.background='linear-gradient(135deg,#7C3AED,#EC4899)';this.style.display='none'"></div>
+    <div class="member-info">
+      <div class="name">JUNGKOOK — Jeon Jungkook</div>
+      <div class="role">Golden Closing · Cierre Brillante</div>
+      <div class="quote">"Para cerrar con broche de oro: monitorear tus créditos es tan importante como activarlos. Una gestión inteligente maximiza el beneficio todo el año."</div>
+    </div>
+  </div>
+
+  <div class="steps-wrap">
+    <div class="step-card rv">
+      <div class="step-head">
+        <div class="step-num-badge" style="background:linear-gradient(135deg,var(--bora),var(--rose))">★</div>
+        <div>
+          <div class="step-title"><i class="fas fa-chart-line" style="color:var(--bora)"></i> Pasos para monitorear el consumo</div>
+          <div class="step-sub">Accede a Cost Management desde el portal de Azure</div>
+        </div>
+      </div>
+      <div class="step-body">
+        <div class="info-box">
+          <h4><i class="fas fa-step-forward" style="color:var(--azure)"></i> Paso 1 — Iniciar sesión en Azure Portal</h4>
+          <div class="url-block" style="margin-top:8px">
+            <i class="fas fa-lock url-lock"></i>
+            <span class="url-text">https://portal.azure.com/#home</span>
+            <button class="url-copy" onclick="copyTxt(this,'https://portal.azure.com/#home')">Copiar</button>
+          </div>
+        </div>
+        <div class="info-box" style="margin-top:-4px">
+          <h4><i class="fas fa-step-forward" style="color:var(--azure)"></i> Paso 2 — Buscar "Cost Management"</h4>
+          <p>En la barra de búsqueda del portal presiona <strong>G+/</strong> y escribe <strong>"cost"</strong>. Selecciona <strong>Cost Management + Billing</strong> de los resultados.</p>
+        </div>
+        <div class="info-box" style="margin-top:-4px">
+          <h4><i class="fas fa-step-forward" style="color:var(--azure)"></i> Paso 3 — Ver resumen de consumo</h4>
+          <p>En la pestaña <strong>"Resumen"</strong> verás: <strong>Importe pendiente · Créditos disponibles · Velocidad y previsión de gastos · Facturas recientes</strong>.</p>
+        </div>
+        <div class="callout warn">
+          <i class="fas fa-exclamation-triangle"></i>
+          <div>Los $100 USD de crédito son <strong>renovables anualmente</strong>. Una gestión eficiente de recursos puede ayudarte a optimizar costos y aprovechar al máximo la plataforma durante todo el año académico.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHECKLIST FINAL -->
+  <div style="background:var(--glass);backdrop-filter:blur(20px);border:1.5px solid var(--glass-border);border-radius:20px;padding:28px;margin-top:32px;box-shadow:var(--shadow)" class="rv">
+    <h3 style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--ink);margin-bottom:16px;display:flex;align-items:center;gap:10px">
+      <span style="width:32px;height:32px;background:linear-gradient(135deg,var(--bora),var(--rose));border-radius:8px;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:.75rem"><i class="fas fa-check-double"></i></span>
+      Checklist de Verificación Final
+    </h3>
+    <ul class="checklist">
+      <li><div class="cl-icon"><i class="fas fa-check"></i></div><div>Abriste una ventana de navegación privada / InPrivate</div></li>
+      <li><div class="cl-icon"><i class="fas fa-check"></i></div><div>Ingresaste al portal oficial de Azure for Students</div></li>
+      <li><div class="cl-icon"><i class="fas fa-check"></i></div><div>Iniciaste sesión con tu correo <strong>T01283B@ms.upla.edu.pe</strong></div></li>
+      <li><div class="cl-icon"><i class="fas fa-check"></i></div><div>Completaste el formulario de comprobación de estudiante</div></li>
+      <li><div class="cl-icon"><i class="fas fa-check"></i></div><div>Escribiste correctamente "Universidad Peruana Los Andes" como nombre de escuela</div></li>
+      <li><div class="cl-icon"><i class="fas fa-check"></i></div><div>Completaste tu perfil con datos correctos</div></li>
+      <li><div class="cl-icon"><i class="fas fa-check"></i></div><div>Aceptaste términos y condiciones y hiciste clic en "Registrarse"</div></li>
+      <li><div class="cl-icon"><i class="fas fa-check"></i></div><div>Verificaste $100 USD de crédito disponible en Education Hub</div></li>
+      <li><div class="cl-icon"><i class="fas fa-check"></i></div><div>Configuraste monitoreo de consumo en Cost Management</div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ══ GOLDEN CLOSE ══ -->
+<div class="golden-section">
+  <div class="golden-inner">
+    <div class="sec-eyebrow">Golden Summary</div>
+    <h2 class="sec-h" style="color:#fff;margin-bottom:32px">Lo que lograste con <em>este manual</em></h2>
+
+    <div class="golden-grid rv">
+      <div class="golden-card purple-c">
+        <h4><i class="fas fa-cloud"></i> Azure for Students activado</h4>
+        <ul>
+          <li>Cuenta verificada con correo UPLA</li>
+          <li>$100 USD de crédito disponible</li>
+          <li>Renovable cada año académico</li>
+          <li>Sin tarjeta de crédito requerida</li>
+        </ul>
+      </div>
+      <div class="golden-card azure-c">
+        <h4><i class="fab fa-microsoft"></i> Servicios desbloqueados</h4>
+        <ul>
+          <li>25+ servicios gratuitos de Azure</li>
+          <li>Azure SQL Database disponible</li>
+          <li>SQL Server 2022 Developer</li>
+          <li>Azure Virtual Machines</li>
+        </ul>
+      </div>
+      <div class="golden-card rose-c">
+        <h4><i class="fas fa-shield-alt"></i> Buenas prácticas</h4>
+        <ul>
+          <li>Monitoreo en Cost Management</li>
+          <li>Alertas de consumo configuradas</li>
+          <li>Gestión eficiente de recursos</li>
+          <li>Suscripción única por estudiante</li>
+        </ul>
+      </div>
+      <div class="golden-card gold-c">
+        <h4><i class="fas fa-graduation-cap"></i> Próximos pasos</h4>
+        <ul>
+          <li>Crear Azure SQL Database</li>
+          <li>Desplegar BD GradosTítulos</li>
+          <li>Ejecutar scripts de tablas</li>
+          <li>Subir manual a GitHub Pages</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="margin-top:40px;text-align:center" class="rv" style="transition-delay:.2s">
+      <div style="display:inline-flex;align-items:center;gap:16px;background:rgba(255,255,255,.06);border:1px solid rgba(124,58,237,.25);border-radius:16px;padding:16px 28px">
+        <div style="font-size:2rem">💜</div>
+        <div style="text-align:left">
+          <div style="font-family:'Syne',sans-serif;font-weight:800;color:#fff;font-size:1rem">Base de Datos II · UPLA 2026</div>
+          <div style="color:rgba(167,139,250,.7);font-size:.8rem">Ing. Raúl Fernández Bejarano · T01283B@ms.upla.edu.pe</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>💜 <strong>Manual Azure for Students × BTS</strong> — Universidad Peruana Los Andes</p>
+  <p style="margin-top:6px;opacity:.5">Ing. Raúl Fernández Bejarano · Base de Datos II · Semana 10 · 2026</p>
+</footer>
+
+</div><!-- #main -->
+
+<script>
+// ── STARS ──
+const stars=document.getElementById('stars');
+for(let i=0;i<80;i++){
+  const s=document.createElement('div');
+  s.className='star-p';
+  const size=Math.random()*3+1;
+  s.style.cssText=`width:${size}px;height:${size}px;top:${Math.random()*100}%;left:${Math.random()*100}%;animation-delay:${Math.random()*3}s;animation-duration:${2+Math.random()*3}s`;
+  stars.appendChild(s);
+}
+
+// ── CURSOR ──
+const ring=document.getElementById('cursor-ring');
+const dot=document.getElementById('cursor-dot');
+let mx=0,my=0,cx=0,cy=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.transform=`translate(${mx-3.5}px,${my-3.5}px)`});
+(function loop(){cx+=(mx-cx)*.14;cy+=(my-cy)*.14;ring.style.transform=`translate(${cx-18}px,${cy-18}px)`;requestAnimationFrame(loop)})();
+document.querySelectorAll('a,button,[onclick]').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ring.style.width='56px';ring.style.height='56px';ring.style.background='rgba(124,58,237,.1)'});
+  el.addEventListener('mouseleave',()=>{ring.style.width='36px';ring.style.height='36px';ring.style.background='transparent'});
+});
+
+// ── SPLASH ──
+function startExp(){
+  document.getElementById('splash').classList.add('out');
+  document.body.style.overflow='auto';
+  setTimeout(()=>{
+    document.getElementById('splash').style.display='none';
+    document.getElementById('main').classList.add('on');
+  },1000);
+}
+document.body.style.overflow='hidden';
+
+// ── COPY ──
+function copyTxt(btn,txt){
+  navigator.clipboard.writeText(txt).catch(()=>{
+    const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
+  });
+  const orig=btn.textContent;btn.textContent='✓ Copiado';btn.classList.add('copied');
+  setTimeout(()=>{btn.textContent=orig;btn.classList.remove('copied')},2200);
+}
+
+// ── PROGRESS BAR ──
+window.addEventListener('scroll',()=>{
+  const total=document.documentElement.scrollHeight-window.innerHeight;
+  const pct=total>0?(window.scrollY/total*100):0;
+  document.getElementById('progress-bar').style.width=pct+'%';
+});
+
+// ── ACTIVE NAV ──
+const sections=['prereq','paso1','paso2','paso3','paso4','paso5','bonus'];
+window.addEventListener('scroll',()=>{
+  const pos=window.scrollY+120;
+  sections.forEach(id=>{
+    const el=document.getElementById(id);
+    const lnk=document.querySelector(`.nav-step[href="#${id}"]`);
+    if(!el||!lnk)return;
+    if(el.offsetTop<=pos&&el.offsetTop+el.offsetHeight>pos){
+      document.querySelectorAll('.nav-step').forEach(n=>n.classList.remove('active'));
+      lnk.classList.add('active');
+    }
+  });
+});
+
+// ── SCROLL REVEAL ──
+const ro=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){e.target.classList.add('vis');ro.unobserve(e.target)}
+}),{threshold:.07,rootMargin:'0px 0px -20px 0px'});
+document.querySelectorAll('.rv').forEach(el=>ro.observe(el));
+
+// ── GIF ERROR FALLBACKS ──
+document.querySelectorAll('img[src*="giphy"]').forEach(img=>{
+  img.addEventListener('error',function(){
+    this.style.display='none';
+    const parent=this.parentElement;
+    if(parent){
+      parent.style.background='linear-gradient(135deg,#7C3AED,#EC4899)';
+      parent.style.display='flex';
+      parent.style.alignItems='center';
+      parent.style.justifyContent='center';
+      const em=document.createElement('span');
+      em.textContent='💜';em.style.fontSize='3rem';
+      parent.appendChild(em);
+    }
+  });
+});
+</script>
+</body>
+</html>
